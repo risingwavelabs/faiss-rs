@@ -730,78 +730,6 @@ unsafe extern "C" {
         index: *mut FaissIndexFlat1D,
     ) -> ::std::os::raw::c_int;
 }
-pub type FaissIndexIVFFlat = FaissIndex_H;
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_free(obj: *mut FaissIndexIVFFlat);
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_cast(arg1: *mut FaissIndex) -> *mut FaissIndexIVFFlat;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_nlist(arg1: *const FaissIndexIVFFlat) -> usize;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_nprobe(arg1: *const FaissIndexIVFFlat) -> usize;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_set_nprobe(arg1: *mut FaissIndexIVFFlat, arg2: usize);
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_quantizer(arg1: *const FaissIndexIVFFlat) -> *mut FaissIndex;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_quantizer_trains_alone(
-        arg1: *const FaissIndexIVFFlat,
-    ) -> ::std::os::raw::c_char;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_own_fields(arg1: *const FaissIndexIVFFlat) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_set_own_fields(
-        arg1: *mut FaissIndexIVFFlat,
-        arg2: ::std::os::raw::c_int,
-    );
-}
-unsafe extern "C" {
-    #[doc = " whether object owns the quantizer"]
-    pub fn faiss_IndexIVFFlat_new(p_index: *mut *mut FaissIndexIVFFlat) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_new_with(
-        p_index: *mut *mut FaissIndexIVFFlat,
-        quantizer: *mut FaissIndex,
-        d: usize,
-        nlist: usize,
-    ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_new_with_metric(
-        p_index: *mut *mut FaissIndexIVFFlat,
-        quantizer: *mut FaissIndex,
-        d: usize,
-        nlist: usize,
-        metric: FaissMetricType,
-    ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
-    pub fn faiss_IndexIVFFlat_add_core(
-        index: *mut FaissIndexIVFFlat,
-        n: idx_t,
-        x: *const f32,
-        xids: *const idx_t,
-        precomputed_idx: *const i64,
-    ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
-    #[doc = " Update a subset of vectors.\n\n The index must have a direct_map\n\n @param nv     nb of vectors to update\n @param idx    vector indices to update, size nv\n @param v      vectors of new values, size nv*d"]
-    pub fn faiss_IndexIVFFlat_update_vectors(
-        index: *mut FaissIndexIVFFlat,
-        nv: ::std::os::raw::c_int,
-        idx: *mut idx_t,
-        v: *const f32,
-    ) -> ::std::os::raw::c_int;
-}
 unsafe extern "C" {
     pub fn faiss_RangeSearchResult_nq(arg1: *const FaissRangeSearchResult) -> usize;
 }
@@ -893,6 +821,28 @@ unsafe extern "C" {
         p_sel: *mut *mut FaissIDSelectorBatch,
         n: usize,
         indices: *const idx_t,
+    ) -> ::std::os::raw::c_int;
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct FaissIDSelectorBitmap_H {
+    _unused: [u8; 0],
+}
+pub type FaissIDSelectorBitmap = FaissIDSelectorBitmap_H;
+unsafe extern "C" {
+    pub fn faiss_IDSelectorBitmap_free(obj: *mut FaissIDSelectorBitmap);
+}
+unsafe extern "C" {
+    pub fn faiss_IDSelectorBitmap_n(arg1: *const FaissIDSelectorBitmap) -> usize;
+}
+unsafe extern "C" {
+    pub fn faiss_IDSelectorBitmap_bitmap(arg1: *const FaissIDSelectorBitmap) -> *const u8;
+}
+unsafe extern "C" {
+    pub fn faiss_IDSelectorBitmap_new(
+        p_sel: *mut *mut FaissIDSelectorBitmap,
+        n: usize,
+        bitmap: *const u8,
     ) -> ::std::os::raw::c_int;
 }
 #[repr(C)]
@@ -1093,6 +1043,147 @@ unsafe extern "C" {
 }
 unsafe extern "C" {
     pub fn faiss_DistanceComputer_free(obj: *mut FaissDistanceComputer);
+}
+pub type FaissHNSWNeighborIdx = i32;
+pub type FaissIndexHNSW = FaissIndex_H;
+unsafe extern "C" {
+    pub fn faiss_IndexHNSW_free(obj: *mut FaissIndexHNSW);
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSW_cast(arg1: *mut FaissIndex) -> *mut FaissIndexHNSW;
+}
+unsafe extern "C" {
+    #[doc = " The HNSW index is a normal random-access index with a HNSW\n link structure built on top"]
+    pub fn faiss_IndexHNSW_set_ef_construction(
+        p_index: *mut FaissIndexHNSW,
+        ef_construction: ::std::os::raw::c_int,
+    );
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSW_set_ef_search(
+        p_index: *mut FaissIndexHNSW,
+        ef_search: ::std::os::raw::c_int,
+    );
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSW_entry_point(
+        p_index: *const FaissIndexHNSW,
+        entry_point: *mut idx_t,
+        max_level: *mut ::std::os::raw::c_int,
+    );
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSW_levels(
+        p_index: *const FaissIndexHNSW,
+        levels: *mut *const ::std::os::raw::c_int,
+    );
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSW_neighbors(
+        p_index: *const FaissIndexHNSW,
+        no: idx_t,
+        level_no: ::std::os::raw::c_int,
+        neighbors: *mut *const FaissHNSWNeighborIdx,
+        neighbor_count: *mut usize,
+    );
+}
+pub type FaissIndexHNSWFlat = FaissIndex_H;
+unsafe extern "C" {
+    pub fn faiss_IndexHNSWFlat_free(obj: *mut FaissIndexHNSWFlat);
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSWFlat_cast(arg1: *mut FaissIndex) -> *mut FaissIndexHNSWFlat;
+}
+unsafe extern "C" {
+    #[doc = " Flat index topped with with a HNSW structure to access elements\n  more efficiently."]
+    pub fn faiss_IndexHNSWFlat_new(p_index: *mut *mut FaissIndexHNSWFlat) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSWFlat_new_with(
+        p_index: *mut *mut FaissIndexHNSWFlat,
+        d: ::std::os::raw::c_int,
+        m: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexHNSWFlat_new_with_metric(
+        p_index: *mut *mut FaissIndexHNSWFlat,
+        d: ::std::os::raw::c_int,
+        m: ::std::os::raw::c_int,
+        metric: FaissMetricType,
+    ) -> ::std::os::raw::c_int;
+}
+pub type FaissIndexIVFFlat = FaissIndex_H;
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_free(obj: *mut FaissIndexIVFFlat);
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_cast(arg1: *mut FaissIndex) -> *mut FaissIndexIVFFlat;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_nlist(arg1: *const FaissIndexIVFFlat) -> usize;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_nprobe(arg1: *const FaissIndexIVFFlat) -> usize;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_set_nprobe(arg1: *mut FaissIndexIVFFlat, arg2: usize);
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_quantizer(arg1: *const FaissIndexIVFFlat) -> *mut FaissIndex;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_quantizer_trains_alone(
+        arg1: *const FaissIndexIVFFlat,
+    ) -> ::std::os::raw::c_char;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_own_fields(arg1: *const FaissIndexIVFFlat) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_set_own_fields(
+        arg1: *mut FaissIndexIVFFlat,
+        arg2: ::std::os::raw::c_int,
+    );
+}
+unsafe extern "C" {
+    #[doc = " whether object owns the quantizer"]
+    pub fn faiss_IndexIVFFlat_new(p_index: *mut *mut FaissIndexIVFFlat) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_new_with(
+        p_index: *mut *mut FaissIndexIVFFlat,
+        quantizer: *mut FaissIndex,
+        d: usize,
+        nlist: usize,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_new_with_metric(
+        p_index: *mut *mut FaissIndexIVFFlat,
+        quantizer: *mut FaissIndex,
+        d: usize,
+        nlist: usize,
+        metric: FaissMetricType,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    pub fn faiss_IndexIVFFlat_add_core(
+        index: *mut FaissIndexIVFFlat,
+        n: idx_t,
+        x: *const f32,
+        xids: *const idx_t,
+        precomputed_idx: *const i64,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    #[doc = " Update a subset of vectors.\n\n The index must have a direct_map\n\n @param nv     nb of vectors to update\n @param idx    vector indices to update, size nv\n @param v      vectors of new values, size nv*d"]
+    pub fn faiss_IndexIVFFlat_update_vectors(
+        index: *mut FaissIndexIVFFlat,
+        nv: ::std::os::raw::c_int,
+        idx: *mut idx_t,
+        v: *const f32,
+    ) -> ::std::os::raw::c_int;
 }
 pub type FaissSearchParametersIVF = FaissSearchParameters_H;
 unsafe extern "C" {
@@ -1834,7 +1925,7 @@ unsafe extern "C" {
     #[doc = " get a pointer to the sub-index (the `index` field).\n The outputs of this function become invalid after any operation that can\n modify the index.\n\n @param index   opaque pointer to index object"]
     pub fn faiss_IndexIDMap2_sub_index(index: *mut FaissIndexIDMap2) -> *mut FaissIndex;
 }
-pub type FILE = __BindgenOpaqueArray<u64, 27usize>;
+pub type FILE = __BindgenOpaqueArray<u64, 19usize>;
 unsafe extern "C" {
     #[doc = " Clone an index. This is equivalent to `faiss::clone_index`"]
     pub fn faiss_clone_index(
@@ -1862,6 +1953,67 @@ pub type FaissErrorCode = ::std::os::raw::c_int;
 unsafe extern "C" {
     #[doc = " Get the error message of the last failed operation performed by Faiss.\n The given pointer is only invalid until another Faiss function is\n called."]
     pub fn faiss_get_last_error() -> *const ::std::os::raw::c_char;
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct FaissIOReader_H {
+    _unused: [u8; 0],
+}
+pub type FaissIOReader = FaissIOReader_H;
+unsafe extern "C" {
+    pub fn faiss_IOReader_free(obj: *mut FaissIOReader);
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct FaissIOWriter_H {
+    _unused: [u8; 0],
+}
+pub type FaissIOWriter = FaissIOWriter_H;
+unsafe extern "C" {
+    pub fn faiss_IOWriter_free(obj: *mut FaissIOWriter);
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct FaissCustomIOReader_H {
+    _unused: [u8; 0],
+}
+pub type FaissCustomIOReader = FaissCustomIOReader_H;
+unsafe extern "C" {
+    pub fn faiss_CustomIOReader_free(obj: *mut FaissCustomIOReader);
+}
+unsafe extern "C" {
+    #[doc = " Custom reader + writer\n\n Reader and writer which wraps a function pointer,\n primarily for FFI use."]
+    pub fn faiss_CustomIOReader_new(
+        p_out: *mut *mut FaissCustomIOReader,
+        func_in: ::std::option::Option<
+            unsafe extern "C" fn(
+                ptr: *mut ::std::os::raw::c_void,
+                size: usize,
+                nitems: usize,
+            ) -> usize,
+        >,
+    ) -> ::std::os::raw::c_int;
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct FaissCustomIOWriter_H {
+    _unused: [u8; 0],
+}
+pub type FaissCustomIOWriter = FaissCustomIOWriter_H;
+unsafe extern "C" {
+    pub fn faiss_CustomIOWriter_free(obj: *mut FaissCustomIOWriter);
+}
+unsafe extern "C" {
+    pub fn faiss_CustomIOWriter_new(
+        p_out: *mut *mut FaissCustomIOWriter,
+        func_in: ::std::option::Option<
+            unsafe extern "C" fn(
+                ptr: *const ::std::os::raw::c_void,
+                size: usize,
+                nitems: usize,
+            ) -> usize,
+        >,
+    ) -> ::std::os::raw::c_int;
 }
 unsafe extern "C" {
     #[doc = " Build an index with the sequence of processing steps described in\n  the string."]
@@ -1892,6 +2044,14 @@ unsafe extern "C" {
     ) -> ::std::os::raw::c_int;
 }
 unsafe extern "C" {
+    #[doc = " Write index to a custom writer."]
+    pub fn faiss_write_index_custom(
+        idx: *const FaissIndex,
+        io_writer: *mut FaissIOWriter,
+        io_flags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
     #[doc = " Read index from a file.\n This is equivalent to `faiss:read_index` when a file descriptor is given."]
     pub fn faiss_read_index(
         f: *mut FILE,
@@ -1903,6 +2063,14 @@ unsafe extern "C" {
     #[doc = " Read index from a file.\n This is equivalent to `faiss:read_index` when a file path is given."]
     pub fn faiss_read_index_fname(
         fname: *const ::std::os::raw::c_char,
+        io_flags: ::std::os::raw::c_int,
+        p_out: *mut *mut FaissIndex,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    #[doc = " Read index from a custom reader."]
+    pub fn faiss_read_index_custom(
+        io_reader: *mut FaissIOReader,
         io_flags: ::std::os::raw::c_int,
         p_out: *mut *mut FaissIndex,
     ) -> ::std::os::raw::c_int;
@@ -1922,6 +2090,13 @@ unsafe extern "C" {
     ) -> ::std::os::raw::c_int;
 }
 unsafe extern "C" {
+    #[doc = " Write binary index to a custom writer."]
+    pub fn faiss_write_index_binary_custom(
+        idx: *const FaissIndexBinary,
+        io_writer: *mut FaissIOWriter,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
     #[doc = " Read index from a file.\n This is equivalent to `faiss:read_index_binary` when a file descriptor is\n given."]
     pub fn faiss_read_index_binary(
         f: *mut FILE,
@@ -1933,6 +2108,14 @@ unsafe extern "C" {
     #[doc = " Read index from a file.\n This is equivalent to `faiss:read_index_binary` when a file path is given."]
     pub fn faiss_read_index_binary_fname(
         fname: *const ::std::os::raw::c_char,
+        io_flags: ::std::os::raw::c_int,
+        p_out: *mut *mut FaissIndexBinary,
+    ) -> ::std::os::raw::c_int;
+}
+unsafe extern "C" {
+    #[doc = " Read binary index from a custom reader."]
+    pub fn faiss_read_index_binary_custom(
+        io_reader: *mut FaissIOReader,
         io_flags: ::std::os::raw::c_int,
         p_out: *mut *mut FaissIndexBinary,
     ) -> ::std::os::raw::c_int;

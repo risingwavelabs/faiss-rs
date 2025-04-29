@@ -18,6 +18,7 @@ fn static_link_faiss() {
         })
         .define("FAISS_ENABLE_PYTHON", "OFF")
         .define("BUILD_TESTING", "OFF")
+        .define("CMAKE_CXX_COMPILER", "clang++")
         .very_verbose(true);
     let dst = cfg.build();
     let faiss_location = dst.join("lib");
@@ -33,7 +34,15 @@ fn static_link_faiss() {
     println!("cargo:rustc-link-lib=static=faiss_c");
     println!("cargo:rustc-link-lib=static=faiss");
     link_cxx();
-    println!("cargo:rustc-link-lib=gomp");
+    #[cfg(target_os = "macos")]
+    {
+        println!("cargo:rustc-link-search=/opt/homebrew/opt/llvm/lib");
+        println!("cargo:rustc-link-lib=omp");
+    }
+    #[cfg(target_os = "linux")]
+    {
+        println!("cargo:rustc-link-lib=gomp");
+    }
     println!("cargo:rustc-link-lib=blas");
     println!("cargo:rustc-link-lib=lapack");
     if cfg!(feature = "gpu") {
