@@ -13,6 +13,16 @@ pub fn fvec_inner_product(x: &[f32], y: &[f32]) -> f32 {
     ret
 }
 
+pub fn fvec_l2sqr(x: &[f32], y: &[f32]) -> f32 {
+    let len = x.len();
+    assert_eq!(len, y.len());
+    let mut ret = 0.0;
+    unsafe {
+        faiss_sys::faiss_fvec_L2sqr_ny(&mut ret, x.as_ptr(), y.as_ptr(), len, 1);
+    }
+    ret
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
