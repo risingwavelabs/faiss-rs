@@ -2167,6 +2167,18 @@ unsafe extern "C" {
     pub fn faiss_fvec_L2sqr_ny(dis: *mut f32, x: *const f32, y: *const f32, d: usize, ny: usize);
 }
 unsafe extern "C" {
+    #[doc = " compute the L1 distance between vector x and y"]
+    pub fn faiss_fvec_L1(x: *const f32, y: *const f32, d: usize) -> f32;
+}
+unsafe extern "C" {
+    #[doc = " compute the square L2 distance between vector x and y"]
+    pub fn faiss_fvec_L2sqr(x: *const f32, y: *const f32, d: usize) -> f32;
+}
+unsafe extern "C" {
+    #[doc = " compute the inner product distance between vector x and y"]
+    pub fn faiss_fvec_inner_product(x: *const f32, y: *const f32, d: usize) -> f32;
+}
+unsafe extern "C" {
     #[doc = " squared norm of a vector"]
     pub fn faiss_fvec_norm_L2sqr(x: *const f32, d: usize) -> f32;
 }

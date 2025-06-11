@@ -10,7 +10,11 @@ fn static_link_faiss() {
     let mut cfg = cmake::Config::new("faiss");
     cfg.define("FAISS_ENABLE_C_API", "ON")
         .define("BUILD_SHARED_LIBS", "OFF")
-        .define("CMAKE_BUILD_TYPE", "Release")
+        .define("CMAKE_BUILD_TYPE", if cfg!(debug_assertions) {
+            "Debug"
+        } else {
+            "Release"
+        })
         .define("FAISS_ENABLE_GPU", if cfg!(feature = "gpu") {
             "ON"
         } else {
