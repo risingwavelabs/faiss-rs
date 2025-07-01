@@ -22,8 +22,10 @@ fn static_link_faiss() {
         })
         .define("FAISS_ENABLE_PYTHON", "OFF")
         .define("BUILD_TESTING", "OFF")
-        // .define("CMAKE_CXX_COMPILER", "clang++")
         .very_verbose(true);
+    if cfg!(target_os = "macos") {
+        cfg.define("CMAKE_CXX_COMPILER", "clang++");
+    }
     let dst = cfg.build();
     let faiss_location = dst.join("lib");
     let faiss_c_location = dst.join("build/c_api");
