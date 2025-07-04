@@ -29,10 +29,16 @@ fn static_link_faiss() {
     }
     let dst = cfg.build();
     let faiss_location = dst.join("lib");
+    // In some env the lib path is lib64
+    let faiss_64_location = dst.join("lib64");
     let faiss_c_location = dst.join("build/c_api");
     println!(
         "cargo:rustc-link-search=native={}",
         faiss_location.display()
+    );
+    println!(
+        "cargo:rustc-link-search=native={}",
+        faiss_64_location.display()
     );
     println!(
         "cargo:rustc-link-search=native={}",
