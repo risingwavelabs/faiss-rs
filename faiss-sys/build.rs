@@ -10,7 +10,11 @@ fn static_link_faiss() {
     let mut cfg = cmake::Config::new("faiss");
     cfg.define("FAISS_ENABLE_C_API", "ON")
         .define("BUILD_SHARED_LIBS", "OFF")
-        .define("CMAKE_BUILD_TYPE", "Release")
+        .define("CMAKE_BUILD_TYPE", if cfg!(debug_assertions) {
+            "Debug"
+        } else {
+            "Release"
+        })
         .define("FAISS_ENABLE_GPU", if cfg!(feature = "gpu") {
             "ON"
         } else {
@@ -19,12 +23,21 @@ fn static_link_faiss() {
         .define("FAISS_ENABLE_PYTHON", "OFF")
         .define("BUILD_TESTING", "OFF")
         .very_verbose(true);
+    if cfg!(target_os = "macos") {
+        cfg.define("CMAKE_CXX_COMPILER", "/opt/homebrew/opt/llvm/bin/clang++");
+    }
     let dst = cfg.build();
     let faiss_location = dst.join("lib");
+    // In some env the lib path is lib64
+    let faiss_64_location = dst.join("lib64");
     let faiss_c_location = dst.join("build/c_api");
     println!(
         "cargo:rustc-link-search=native={}",
         faiss_location.display()
+    );
+    println!(
+        "cargo:rustc-link-search=native={}",
+        faiss_64_location.display()
     );
     println!(
         "cargo:rustc-link-search=native={}",
@@ -33,7 +46,15 @@ fn static_link_faiss() {
     println!("cargo:rustc-link-lib=static=faiss_c");
     println!("cargo:rustc-link-lib=static=faiss");
     link_cxx();
-    println!("cargo:rustc-link-lib=gomp");
+    #[cfg(target_os = "macos")]
+    {
+        println!("cargo:rustc-link-search=/opt/homebrew/opt/llvm/lib");
+        println!("cargo:rustc-link-lib=omp");
+    }
+    #[cfg(target_os = "linux")]
+    {
+        println!("cargo:rustc-link-lib=gomp");
+    }
     println!("cargo:rustc-link-lib=blas");
     println!("cargo:rustc-link-lib=lapack");
     if cfg!(feature = "gpu") {

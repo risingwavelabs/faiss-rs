@@ -32,6 +32,8 @@ pub mod pretransform;
 pub mod refine_flat;
 pub mod scalar_quantizer;
 
+pub mod hnsw;
+
 #[cfg(feature = "gpu")]
 pub mod gpu;
 
