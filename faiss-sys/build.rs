@@ -24,8 +24,7 @@ fn static_link_faiss() {
         .define("BUILD_TESTING", "OFF")
         .very_verbose(true);
     if cfg!(target_os = "macos") {
-        cfg.define("CMAKE_CXX_COMPILER", "clang++");
-        cfg.env("PATH", format!("{}:{}", "/opt/homebrew/opt/llvm/bin", env!("PATH")));
+        cfg.define("CMAKE_CXX_COMPILER", "/opt/homebrew/opt/llvm/bin/clang++");
     }
     let dst = cfg.build();
     let faiss_location = dst.join("lib");
